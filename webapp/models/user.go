@@ -10,6 +10,7 @@ type User struct {
 
 	Username string `gorm:"unique"`
 	Password string
+	Role     string
 }
 
 func (u *User) BeforeCreate(db *gorm.DB) (err error) {
@@ -20,6 +21,10 @@ func (u *User) BeforeCreate(db *gorm.DB) (err error) {
 
 	u.Password = string(bytes)
 	return
+}
+
+func (u *User) IsAdmin() bool {
+	return u.Role == "admin"
 }
 
 func (u *User) EncryptedPassword() string {

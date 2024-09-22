@@ -2,7 +2,6 @@ package usersHandler
 
 import (
 	"go-store/application/models"
-	"go-store/webapp/handlers/responses"
 	"go-store/webapp/repositories"
 	"net/http"
 
@@ -12,23 +11,24 @@ import (
 func SignUp(c *gin.Context) {
 	var user models.User
 	err := c.BindJSON(&user)
-	errorResponse := responses.ErrorResponse{}
 
 	if err != nil {
-		errorResponse.Message = "Ocorreu um erro inesperado."
-		c.JSON(http.StatusBadRequest, errorResponse)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Ocorreu um erro inesperado.",
+		})
 		return
 	}
 
 	signUpError := repositories.SignUp(user)
 
 	if signUpError != nil {
-		errorResponse.Message = "Ocorreu um erro ao cadastrar o usuário."
-		c.JSON(http.StatusBadRequest, errorResponse)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": signUpError.Error(),
+		})
 		return
 	}
 
-	successResponse := responses.SuccessResponse{Message: "Usuário cadastrado com sucesso"}
-
-	c.JSON(http.StatusCreated, successResponse)
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Usuário cadastrado com sucesso",
+	})
 }
