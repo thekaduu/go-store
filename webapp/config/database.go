@@ -32,5 +32,12 @@ func ConnectDatabase() *gorm.DB {
 func SetupDatabase() error {
 	db := ConnectDatabase()
 
-	return db.AutoMigrate(&modelsORM.User{}, &modelsORM.Product{})
+	return db.AutoMigrate(
+		&modelsORM.Store{},
+		&modelsORM.User{},
+		&modelsORM.Category{},
+		&modelsORM.OrderItem{},
+		&modelsORM.Order{},
+		&modelsORM.Product{},
+	)
 }
