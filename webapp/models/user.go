@@ -8,6 +8,8 @@ import (
 type User struct {
 	gorm.Model
 
+	StoreID  uint `gorm:"index"`
+	Store    Store
 	Username string `gorm:"unique"`
 	Password string
 	Role     string
