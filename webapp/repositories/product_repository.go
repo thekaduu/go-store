@@ -2,11 +2,11 @@ package repositories
 
 import (
 	"go-store/webapp/config"
-	modelsORM "go-store/webapp/models"
+	models "go-store/webapp/models"
 )
 
-func AllProducts() ([]modelsORM.Product, error) {
-	var products []modelsORM.Product
+func AllProducts() ([]models.Product, error) {
+	var products []models.Product
 	db := config.ConnectDatabase()
 
 	result := db.Find(&products)
@@ -16,4 +16,16 @@ func AllProducts() ([]modelsORM.Product, error) {
 	}
 
 	return products, nil
+}
+
+func CreateProduct(productModel *models.Product) (bool, error) {
+	db := config.ConnectDatabase()
+
+	err := db.Create(productModel).Error
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }

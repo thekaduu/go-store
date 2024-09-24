@@ -2,15 +2,15 @@ package repositories
 
 import (
 	"fmt"
-	"go-store/application/models"
 	"go-store/webapp/config"
-	modelsORM "go-store/webapp/models"
+	models "go-store/webapp/models"
+	"go-store/webapp/requests"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func FindUserById(userId uint) (modelsORM.User, error) {
-	var user modelsORM.User
+func FindUserById(userId uint) (models.User, error) {
+	var user models.User
 
 	db := config.ConnectDatabase()
 	err := db.First(&user, userId).Error
@@ -19,10 +19,10 @@ func FindUserById(userId uint) (modelsORM.User, error) {
 
 }
 
-func Login(userDomain models.User) (modelsORM.User, error) {
+func Login(userDomain requests.UserRequest) (models.User, error) {
 	db := config.ConnectDatabase()
 
-	var userModel modelsORM.User
+	var userModel models.User
 
 	result := db.Where("username = ?", userDomain.Username).First(&userModel)
 
@@ -39,9 +39,9 @@ func Login(userDomain models.User) (modelsORM.User, error) {
 	return userModel, nil
 }
 
-func FindByUsername(username string) (modelsORM.User, error) {
+func FindByUsername(username string) (models.User, error) {
 	db := config.ConnectDatabase()
-	var user modelsORM.User
+	var user models.User
 
 	err := db.First(&user, "username = ?", username).Error
 
@@ -54,8 +54,8 @@ func exists(username string) bool {
 	return err == nil && user.ID > 0
 }
 
-func SignUp(user models.User) error {
-	userModel := modelsORM.User{
+func SignUp(user requests.UserRequest) error {
+	userModel := models.User{
 		Username: user.Username,
 		Password: user.Password,
 		Role:     "customer",

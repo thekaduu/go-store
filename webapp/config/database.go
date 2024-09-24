@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-	modelsORM "go-store/webapp/models"
+	models "go-store/webapp/models"
 	"os"
 
 	"gorm.io/driver/postgres"
@@ -33,11 +33,11 @@ func SetupDatabase() error {
 	db := ConnectDatabase()
 
 	return db.AutoMigrate(
-		&modelsORM.Store{},
-		&modelsORM.User{},
-		&modelsORM.Category{},
-		&modelsORM.OrderItem{},
-		&modelsORM.Order{},
-		&modelsORM.Product{},
+		&models.Store{},
+		&models.User{},
+		&models.Category{},
+		&models.OrderItem{},
+		&models.Order{},
+		&models.Product{},
 	)
 }

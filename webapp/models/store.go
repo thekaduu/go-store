@@ -1,4 +1,4 @@
-package modelsORM
+package models
 
 import (
 	"gorm.io/gorm"
@@ -7,7 +7,7 @@ import (
 type Store struct {
 	gorm.Model
 
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Profile     string `json:"profile_pic"`
+	Name         string `json:"name" gorm:"unique"`
+	Description  string `json:"description"`
+	ProfileImage string `json:"profile_image"`
 }

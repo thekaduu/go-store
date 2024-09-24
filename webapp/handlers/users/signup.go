@@ -1,16 +1,16 @@
 package usersHandler
 
 import (
-	"go-store/application/models"
 	"go-store/webapp/repositories"
+	"go-store/webapp/requests"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func SignUp(c *gin.Context) {
-	var user models.User
-	err := c.BindJSON(&user)
+	var userRequest requests.UserRequest
+	err := c.BindJSON(&userRequest)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -19,7 +19,7 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	signUpError := repositories.SignUp(user)
+	signUpError := repositories.SignUp(userRequest)
 
 	if signUpError != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

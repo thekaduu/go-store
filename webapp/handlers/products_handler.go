@@ -1,4 +1,4 @@
-package productsHandler
+package handlers
 
 import (
 	"go-store/webapp/handlers/responses"
@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Index(c *gin.Context) {
+func ProductIndex(c *gin.Context) {
 	products, err := repositories.AllProducts()
 	var productsResponse []responses.ProductResponse
 
